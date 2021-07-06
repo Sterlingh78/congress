@@ -1,0 +1,19 @@
+#wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item {
+    border: 3px solid black;
+    width: 200px;
+    margin: 10px;
+}
+
+.senator {
+    border-color: black;
+}
+
+.representative {
+    border-color: red;
+}

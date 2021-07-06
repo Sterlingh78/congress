@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Congress Explorer</title>
+        <script src='./representatives.js'></script>
+        <script src='./senators.js'></script>
+        <link rel='stylesheet' href='./style.css'>
+    </head>
+    <body>
+        <h1>Congress Explorer</h1>
+        <p>This interactive page is made to display all the members of the Congress of the United States. Click the buttons to organize by various categories.</p>
+        <p>(Note: There are bugs when multiple filters are applied at the same time in some cases. Click the All button to refresh the page)</p>
+        <button onclick="Refresh();">All</button>
+        <button onclick="Representatives();">Representatives</button>
+        <button onclick="Senators()">Senators</button>
+        <button onclick="Seniority()">Seniority</button>
+        <button onclick="Republicans()">Republicans</button>
+        <button onclick="Democrats()">Democrats</button>
+        <button onclick="Independents()">Independents</button>
+        <div id='wrapper'>
+
+        </div>
+        <img id='image'>
+        <script>
+            let content = ``;
+
+            function Display() {
+                for (var i = 0; i < senators.length; i++) {
+                content += `<div class='item senator ${senators[i].party}'><h2>${senators[i].first_name} ${senators[i].last_name}</h2><h3>Senator</h3><h3>Party: ${senators[i].party}</h3><h3>Seniority: ${senators[i].seniority}</h3><img src='https://www.govtrack.us/static/legislator-photos/${senators[i].govtrack_id}-100px.jpeg'></div>`;
+            }
+
+            for (var j = 0; j < representatives.length; j++) {
+                content += `<div class='item representative ${representatives[j].party}'><h2>${representatives[j].first_name} ${representatives[j].last_name}</h2><h3>Representative</h3><h3>Party: ${representatives[j].party}</h3><h3>Seniority: ${representatives[j].seniority}</h3><img src='https://www.govtrack.us/static/legislator-photos/${representatives[j].govtrack_id}-100px.jpeg'></div>`;
+            }
+            document.getElementById('wrapper').innerHTML = content;
+            }
+
+            function Representatives() {
+                let hide = document.getElementsByClassName('senator');
+                for (var i = 0; i < hide.length; i++) {
+                    hide[i].style.display = "none";
+                }
+            }
+            function Senators() {
+                var hide = document.getElementsByClassName('representative');
+                for (var i = 0; i < hide.length; i++) {
+                    hide[i].style.display = "none";
+                }
+            }
+            function Refresh() {
+                location.reload();
+            }
+            function Republicans() {
+                var hideDem = document.getElementsByClassName('D');
+                for (var i = 0; i < hideDem.length; i++) {
+                    hideDem[i].style.display = "none";
+                }
+                var hideID = document.getElementsByClassName('ID');
+                for (var i = 0; i < hideID.length; i++) {
+                    hideID[i].style.display = "none";
+                }
+            }
+            function Democrats() {
+                var hideRep = document.getElementsByClassName('R');
+                for (var i = 0; i < hideRep.length; i++) {
+                    hideRep[i].style.display = "none";
+                }
+                var hideID = document.getElementsByClassName('ID');
+                for (var i = 0; i < hideID.length; i++) {
+                    hideID[i].style.display = "none";
+                }
+            }
+            function Independents() {
+                var hideRep = document.getElementsByClassName('R');
+                for (var i = 0; i < hideRep.length; i++) {
+                    hideRep[i].style.display = "none";
+                }
+                var hideDem = document.getElementsByClassName('D');
+                for (var i = 0; i < hideDem.length; i++) {
+                    hideDem[i].style.display = "none";
+                }
+            }
+            function Seniority() {
+                senators.sort(function (a, b) {
+                    if (parseInt(a.seniority) < parseInt(b.seniority)) return -1;
+                    if (parseInt(a.seniority) > parseInt(b.seniority)) return 1;
+                    if (parseInt(a.seniority) == parseInt(b.seniority)) return 0;
+                })
+                representatives.sort(function (a, b) {
+                    if (parseInt(a.seniority) < parseInt(b.seniority)) return -1;
+                    if (parseInt(a.seniority) > parseInt(b.seniority)) return 1;
+                    if (parseInt(a.seniority) == parseInt(b.seniority)) return 0;
+                })
+
+                // hide all elements
+                let seniorityContent = ``;
+                let hideElems = document.getElementsByClassName('item');
+                for (var i =0; i < hideElems.length; i++) {
+                    hideElems[i].style.display = "none";
+                }
+                // display new elements from sorted arrays
+                for (var i = 0; i < senators.length; i++) {
+                    seniorityContent += `<div class='item senator ${senators[i].party}'><h2>${senators[i].first_name} ${senators[i].last_name}</h2><h3>Senator</h3><h3>Party: ${senators[i].party}</h3><h3>Seniority: ${senators[i].seniority}</h3><img src='https://www.govtrack.us/static/legislator-photos/${senators[i].govtrack_id}-100px.jpeg'></div>`;
+                }
+                for (var i = 0; i < representatives.length; i++) {
+                    seniorityContent += `<div class='item representative ${representatives[i].party}'><h2>${representatives[i].first_name} ${representatives[i].last_name}</h2><h3>Representative</h3><h3>Party: ${representatives[i].party}</h3><h3>Seniority: ${representatives[i].seniority}</h3><img src='https://www.govtrack.us/static/legislator-photos/${representatives[i].govtrack_id}-100px.jpeg'></div>`;
+                }
+                document.getElementById('wrapper').innerHTML = seniorityContent;
+            }
+            Display();
+        </script>
+    </body>
+</html>
